@@ -11,6 +11,7 @@ import com.ems.backend.service.LeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -108,6 +109,78 @@ public class LeaveServiceImpl implements LeaveService {
 
         } catch (Exception e) {
             return Response.error("Error in approving leave", 500);
+        }
+    }
+
+    @Override
+    public Response getLeaveByStaus(String status) {
+
+        try {
+            List<Leave> leaves = leaveRepository.findByStatus(status);
+
+            if (leaves.isEmpty()) {
+                return Response.error("No leave request found with status " + status, 404);
+            }
+
+            List<LeaveDto> leaveDtoList = LeaveMapper.toLeaveDtoList(leaves);
+            return Response.success("leave requests retrieved successfully").withData(leaveDtoList).withCount(leaveDtoList.size());
+        } catch (Exception e) {
+            return Response.error("Error in retrieving leave requests",500);
+        }
+    }
+
+    @Override
+    public Response getLeaveByEmployee(Long employeeId) {
+
+        try {
+
+            List<Leave> leaves = leaveRepository.findByEmployeeId(employeeId);
+
+            if (leaves.isEmpty()) {
+                return Response.error("No leave request found with employee id : " + employeeId, 404);
+            }
+
+            List<LeaveDto> leaveDtoList = LeaveMapper.toLeaveDtoList(leaves);
+
+            return Response.success("leave requests retrieved successfully").withData(leaveDtoList).withCount(leaveDtoList.size());
+        } catch (Exception e) {
+            return Response.error("Error in retrieving leave requests",500);
+        }
+    }
+
+    @Override
+    public Response getLeaveByDepartment(Long departmentId) {
+        try {
+
+            List<Leave> leaves = leaveRepository.findByEmployeeDepartmentId(departmentId);
+
+            if (leaves.isEmpty()) {
+                return Response.error("No leave request found with department id : " + departmentId, 404);
+            }
+
+            List<LeaveDto> leaveDtos = LeaveMapper.toLeaveDtoList(leaves);
+
+            return Response.success("leave requests retrieved successfully").withData(leaveDtos).withCount(leaveDtos.size());
+        } catch (Exception e) {
+            return Response.error("Error in retrieving leave requests",500);
+        }
+    }
+
+    @Override
+    public Response getLeaveBetweenDates(LocalDate start, LocalDate end) {
+        try {
+
+            List<Leave> leaves = leaveRepository.findByStartDateBetween(start, end);
+
+            if (leaves.isEmpty()) {
+                return Response.error("No leaves found between given dates", 404);
+            }
+
+            List<LeaveDto> leaveDtoList = LeaveMapper.toLeaveDtoList(leaves);
+
+            return Response.success("leave requests retrieved successfully").withData(leaveDtoList).withCount(leaveDtoList.size());
+        } catch (Exception e) {
+            return Response.error("Error in retrieving leave requests",500);
         }
     }
 }

@@ -19,7 +19,7 @@ const SideBar = () => {
     { name: "Settings", path: "/settings", icon: <FaCog /> },
   ];
   return (
-    <div className="w-64 bg-gray-800 text-white h-screen p-6">
+    <div className="fixed top-0 left-0 w-64 bg-gray-800 text-white h-screen p-6">
       <h1 className="text-2xl font-bold mb-8">Admin</h1>
       <nav>
         {links.map((link) => (

@@ -185,7 +185,7 @@ function Department() {
   <AssignManagerModal
     deptId={assignDeptId}
     close={() => setAssignDeptId(null)}
-    refresh={fetchDepartments}
+    refresh={loadDepartments}
   />
 )}
 

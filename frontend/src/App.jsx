@@ -9,6 +9,8 @@ import Department from "./pages/departments/Department";
 // Employee Components
 import EmployeeProfile from "./components/employee/EmployeeProfile";
 import EmployeeForm from "./components/employee/EmployeeForm";
+import Leave from "./pages/leaves/Leave";
+import ApplyLeave from "./components/Leave/ApplyLeave";
 
 const App = () => {
   return (
@@ -16,16 +18,22 @@ const App = () => {
       <div className="flex">
         <SideBar />
 
-        <div className="flex-1 p-6">
+        <div className="ml-64 flex-1 p-6">
           <Routes>
-            {/* Employee Routes */}
+           
             <Route path="/employees" element={<Employees />} />
             <Route path="/employees/add" element={<EmployeeForm />} />
             <Route path="/employees/edit/:id" element={<EmployeeForm />} />
             <Route path="/employees/view/:id" element={<EmployeeProfile />} />
 
-            {/* Department */}
+            
             <Route path="/departments" element={<Department />} />
+
+            <Route path="/leave" element={<Leave />} />
+
+            <Route path="/apply-leave" element={<ApplyLeave/>} />
+
+            
           </Routes>
         </div>
       </div>

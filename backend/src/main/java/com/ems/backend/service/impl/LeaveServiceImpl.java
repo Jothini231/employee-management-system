@@ -113,23 +113,6 @@ public class LeaveServiceImpl implements LeaveService {
     }
 
     @Override
-    public Response getLeaveByStaus(String status) {
-
-        try {
-            List<Leave> leaves = leaveRepository.findByStatus(status);
-
-            if (leaves.isEmpty()) {
-                return Response.error("No leave request found with status " + status, 404);
-            }
-
-            List<LeaveDto> leaveDtoList = LeaveMapper.toLeaveDtoList(leaves);
-            return Response.success("leave requests retrieved successfully").withData(leaveDtoList).withCount(leaveDtoList.size());
-        } catch (Exception e) {
-            return Response.error("Error in retrieving leave requests",500);
-        }
-    }
-
-    @Override
     public Response getLeaveByEmployee(Long employeeId) {
 
         try {

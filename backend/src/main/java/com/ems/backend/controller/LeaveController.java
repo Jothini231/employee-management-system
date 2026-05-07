@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/leaves")
 public class LeaveController {
@@ -41,12 +42,6 @@ public class LeaveController {
     @PutMapping("/{id}/reject")
     public ResponseEntity<Response> rejectLeave(@PathVariable Long id){
         Response response = leaveService.rejectLeave(id);
-        return ResponseEntity.status(response.getStatusCode()).body(response);
-    }
-
-    @GetMapping("/status")
-    public ResponseEntity<Response> getLeavesByStatus(@RequestParam String status){
-        Response response = leaveService.getLeaveByStaus(status);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 

@@ -15,8 +15,6 @@ public interface LeaveService {
 
     Response rejectLeave(Long id);
 
-    Response getLeaveByStaus(String status);
-
     Response getLeaveByEmployee(Long employeeId);
 
     Response getLeaveByDepartment(Long departmentId);

@@ -10,7 +10,7 @@ function LeaveRow({
     const employee = employees.find(emp => emp.id === leave.employeeId);
 
     return (
-        <tr className="bg-white border-b hover:bg-gray-50 transition-colors">
+        <tr className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors">
 
             <td className="px-6 py-4 font-medium text-gray-900">
                 {employee ? `${employee.firstName} ${employee.lastName}` : leave.employeeId}

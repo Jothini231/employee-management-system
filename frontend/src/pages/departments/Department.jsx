@@ -12,6 +12,7 @@ import {
 import { getEmployeesByDepartment } from "../../services/employeeService";
 import AssignManagerModal from "../../components/department/AssignManagerModel";
 import DeleteModal from "../../components/common/DeleteModel";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 function Department() {
   const [departments, setDepartments] = useState([]);
@@ -19,10 +20,11 @@ function Department() {
   const [editDept, setEditDept] = useState(null);
   const [employees, setEmployees] = useState([]);
   const [viewDeptId, setViewDeptId] = useState(null);
-  const [assignDeptId,setAssignDeptId] = useState(null);
-  const [deleteDeptId,setDeleteDeptId] = useState(null);
-  const [deleteDeptName,setDeleteDeptName] = useState("");
-  
+  const [assignDeptId, setAssignDeptId] = useState(null);
+  const [deleteDeptId, setDeleteDeptId] = useState(null);
+  const [deleteDeptName, setDeleteDeptName] = useState("");
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("ALL");
 
   useEffect(() => {
     loadDepartments();
@@ -58,7 +60,6 @@ function Department() {
     }
   };
 
-
   const handleEditClick = async (id) => {
     try {
       const res = await getDepartmentById(id);
@@ -67,7 +68,6 @@ function Department() {
       console.log(error);
     }
   };
-
 
   const handleEdit = async (data, managerId) => {
     try {
@@ -87,45 +87,91 @@ function Department() {
     setViewDeptId(deptId);
     await loadEmployees(deptId);
   };
-  
-  const confirmDeleteDepartment = (id,name) => {
+
+  const confirmDeleteDepartment = (id, name) => {
     setDeleteDeptId(id);
     setDeleteDeptName(name);
-
-  }
-
-  const handleDelete = async () => {
-
-    if(deleteDeptId){
-    try {
-      await deleteDepartment(deleteDeptId);
-      await fetchDepartments();
-      closeDeleteModal();
-    } catch (error) {
-      console.log(error);
-    }
-  }
   };
 
+  const handleDelete = async () => {
+    if (deleteDeptId) {
+      try {
+        await deleteDepartment(deleteDeptId);
+        await fetchDepartments();
+        closeDeleteModal();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
-  const closeDeleteModal = () =>{
+  const closeDeleteModal = () => {
     setDeleteDeptId(null);
     setDeleteDeptName("");
-  }
+  };
 
-  
+  const filteredDepartments = departments.filter((dept) => {
+    const matchesSearch = dept.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchesStatus =
+      statusFilter === "ALL"
+        ? true
+        : statusFilter === "ACTIVE"
+          ? dept.status === true
+          : dept.status === false;
+
+    return matchesSearch && matchesStatus;
+  });
+
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6">Department Management</h2>
-      <button
-        className="bg-[#1E2A38] hover:bg-[#2C3A4D] mb-10 text-white px-4 py-2 rounded shadow cursor-pointer"
-        onClick={() => setIsAddOpen(true)}
-      >
-        + Add Department
-      </button>
+    <div className="p-8 bg-gray-50 min-h-screen">
+      <div className="mb-8 flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold  text-gray-800">
+            Department Management
+          </h1>
+
+          <p className="text-gray-500 mt-1">
+            Manage all departments in the organization.
+          </p>
+        </div>
+
+        <button
+          className="bg-[#1E2A38] hover:bg-[#2C3A4D]  text-white px-4 py-2 rounded-lg transition cursor-pointer"
+          onClick={() => setIsAddOpen(true)}
+        >
+          + Add Department
+        </button>
+      </div>
+
+      <div className="mb-6 flex flex-col md:flex-row gap-4 justify-between">
+        <div className="relative w-full md:w-1/3">
+          <MagnifyingGlassIcon className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+
+          <input
+            type="text"
+            placeholder="Search departments..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="w-full md:w-1/4 px-4 py-2 border rounded-lg shadow-sm cursor-pointer"
+        >
+          <option value="ALL">All Status</option>
+          <option value="ACTIVE">Active</option>
+          <option value="INACTIVE">Inactive</option>
+        </select>
+      </div>
 
       <DepartmentTable
-        departments={departments}
+        departments={filteredDepartments}
         onEdit={handleEditClick}
         onDelete={confirmDeleteDepartment}
         onView={handleViewEmployees}
@@ -182,27 +228,22 @@ function Department() {
       )}
 
       {assignDeptId && (
-  <AssignManagerModal
-    deptId={assignDeptId}
-    close={() => setAssignDeptId(null)}
-    refresh={loadDepartments}
-  />
-)}
+        <AssignManagerModal
+          deptId={assignDeptId}
+          close={() => setAssignDeptId(null)}
+          refresh={loadDepartments}
+        />
+      )}
 
-{deleteDeptId && (
-  <DeleteModal
-      name={deleteDeptName}
-      onCancel={closeDeleteModal}
-      onConfirm={handleDelete}
-      />
-)}
-
-      
+      {deleteDeptId && (
+        <DeleteModal
+          name={deleteDeptName}
+          onCancel={closeDeleteModal}
+          onConfirm={handleDelete}
+        />
+      )}
     </div>
   );
-
-  
 }
 
 export default Department;
-

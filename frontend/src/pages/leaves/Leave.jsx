@@ -184,7 +184,7 @@ function LeavePage() {
 
                 <button
                 onClick={() => navigate("/apply-leave")}
-                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition cursor-pointer"
+                className="bg-[#1E2A38] hover:bg-[#2C3A4D]  text-white px-4 py-2 rounded-lg transition cursor-pointer"
                 >
                     Apply Leave
                 </button>

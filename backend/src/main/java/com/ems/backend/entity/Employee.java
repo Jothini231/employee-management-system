@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "employees")
@@ -61,5 +62,8 @@ public class Employee {
     private String photo;
 
     private String status;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Salary> salaries;
 
 }

@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 
 @Service
@@ -144,6 +144,58 @@ public class SalaryServiceImpl implements SalaryService {
             return Response.success("Salary retrieved successfully").withData(salaryDto);
         } catch (Exception e) {
             return Response.error("Error in retrieving salaries",500);
+        }
+    }
+
+    @Override
+    public Response filterSalaries(String month, Long departmentId, Long employeeId) {
+
+        try {
+            List<Salary> salaries = salaryRepository.findAll();
+
+            if (salaries.isEmpty()) {
+                return Response.error("Salaries not found", 404);
+            }
+
+            List<SalaryResponseDto> filtered = salaries.stream()
+                    .filter(s ->
+                            month == null || s.getMonth().equalsIgnoreCase(month))
+
+                    .filter(s ->
+                            employeeId == null || s.getEmployee().getId().equals(employeeId))
+
+                    .filter(s ->
+                            departmentId == null || s.getEmployee().getDepartment().getId().equals(departmentId))
+
+                    .map(SalaryMapper::toDto)
+
+                    .collect(Collectors.toList());
+
+            return Response.success("filter applied successfully").withData(filtered).withCount(filtered.size());
+        } catch (Exception e) {
+            return Response.error("Error in filtering salaries",500);
+        }
+    }
+
+    @Override
+    public Response searchSalaries(String keyword) {
+
+        try {
+            List<Salary> salaries = salaryRepository.findAll();
+
+            if (salaries.isEmpty()) {
+                return Response.error("Salaries not found", 404);
+            }
+
+            List<SalaryResponseDto> searched = salaries.stream()
+                    .filter(s ->
+                            s.getEmployee().getFirstName().toLowerCase().contains(keyword.toLowerCase()))
+                    .map(SalaryMapper::toDto)
+                    .collect(Collectors.toList());
+
+            return Response.success("search results fetched successfully").withData(searched).withCount(searched.size());
+        } catch (Exception e) {
+            return Response.error("Error in searching salaries",500);
         }
     }
 }

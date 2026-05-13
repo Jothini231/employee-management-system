@@ -15,4 +15,8 @@ public interface SalaryService {
 
     Response getSalaryById(Long id);
 
+    Response filterSalaries(String month , Long departmentId , Long employeeId );
+
+    Response searchSalaries(String keyword);
+
 }

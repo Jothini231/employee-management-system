@@ -3,7 +3,6 @@ package com.ems.backend.controller;
 
 import com.ems.backend.dto.Response;
 import com.ems.backend.dto.SalaryDto;
-import com.ems.backend.service.LeaveService;
 import com.ems.backend.service.SalaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -50,4 +49,20 @@ public class SalaryController {
         Response response = salaryService.getSalaryById(id);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity<Response> filterSalaries(
+            @RequestParam(required = false) String month,
+            @RequestParam(required = false) Long departmentId,
+            @RequestParam(required = false) Long employeeId){
+        Response response = salaryService.filterSalaries(month,departmentId,employeeId);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Response> searchSalaries(@RequestParam String keyword){
+        Response response = salaryService.searchSalaries(keyword);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
 }

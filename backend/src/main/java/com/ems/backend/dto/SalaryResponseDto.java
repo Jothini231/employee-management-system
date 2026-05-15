@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class SalaryResponseDto {
 
+    private Long id;
+
     private Long employeeId;
 
     private Double basicSalary;

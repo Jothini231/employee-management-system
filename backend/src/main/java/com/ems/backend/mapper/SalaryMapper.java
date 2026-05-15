@@ -16,6 +16,7 @@ public class SalaryMapper {
         }
 
         SalaryResponseDto dto = new SalaryResponseDto();
+        dto.setId(salary.getId());
         dto.setEmployeeId(salary.getEmployee().getId());
         dto.setBasicSalary(salary.getBasicSalary());
         dto.setAllowance(salary.getAllowance());

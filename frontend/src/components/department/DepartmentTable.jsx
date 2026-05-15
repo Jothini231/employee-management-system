@@ -1,5 +1,6 @@
 import React from "react";
-import { TrashIcon, PencilIcon, EyeIcon } from "@heroicons/react/24/solid";
+import { FaEye,FaEdit, FaTrash } from "react-icons/fa";
+
 
 export default function DepartmentTable({
   departments,
@@ -86,23 +87,23 @@ export default function DepartmentTable({
               <td className="py-5 px-6 ">
                 <div className="flex items-center justify-center gap-2 whitespace-nowrap">
                   <button
-                    className="border border-gray-200 p-2 rounded-lg hover:bg-blue-50 cursor-pointer"
+                    className="p-2 bg-blue-50 text-blue-500 hover:bg-blue-100 rounded-md transition"
                     onClick={() => onView(dept.id)}
                   >
-                    <EyeIcon className="w-5 h-5 text-blue-500" />
+                    <FaEye/>
                   </button>
                   <button
-                    className="border border-gray-200 p-2 rounded-lg hover:bg-blue-50 cursor-pointer"
+                    className="p-2 bg-orange-50 text-orange-500 hover:bg-orange-100 rounded-md transition"
                     onClick={() => onEdit(dept.id)}
                   >
-                    <PencilIcon className="h-5 w-5 text-blue-500" />
+                    <FaEdit />
                   </button>
                   <button
-                    className="border border-gray-200 p-2 rounded-lg hover:bg-red-50 cursor-pointer"
+                    className="p-2 bg-red-50 text-red-500 hover:bg-red-100 rounded-md transition"
                     onClick={() => onDelete(dept.id, dept.name)}
                   >
                     {" "}
-                    <TrashIcon className="h-5 w-5 text-red-500" />
+                    <FaTrash />
                   </button>
                 </div>
               </td>

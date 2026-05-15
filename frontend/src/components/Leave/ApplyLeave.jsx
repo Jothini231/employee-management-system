@@ -169,7 +169,7 @@ function ApplyLeave() {
 
                         <button
                             type="button"
-                            onClick={() => navigate("/leaves")}
+                            onClick={() => navigate("/leave")}
                             className="px-4 py-2 border rounded-lg"
                         >
                             Cancel

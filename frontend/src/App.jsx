@@ -11,6 +11,8 @@ import EmployeeProfile from "./components/employee/EmployeeProfile";
 import EmployeeForm from "./components/employee/EmployeeForm";
 import Leave from "./pages/leaves/Leave";
 import ApplyLeave from "./components/Leave/ApplyLeave";
+import Salary from "./pages/salaries/Salary";
+import AddEditSalaryPage from "./components/salary/AddEditSalary";
 
 const App = () => {
   return (
@@ -33,6 +35,9 @@ const App = () => {
 
             <Route path="/apply-leave" element={<ApplyLeave/>} />
 
+            <Route path="/salary" element={<Salary />} />
+            <Route path="/salaries/add" element={<AddEditSalaryPage />} />
+            <Route path="/salaries/edit/:id" element={<AddEditSalaryPage />} />
             
           </Routes>
         </div>

@@ -1,7 +1,9 @@
 package com.ems.backend.service.impl;
 
+import com.ems.backend.dto.ChangePasswordDto;
 import com.ems.backend.dto.Response;
 import com.ems.backend.dto.EmployeeDto;
+import com.ems.backend.dto.UpdateProfileDto;
 import com.ems.backend.entity.Department;
 import com.ems.backend.entity.Employee;
 import com.ems.backend.mapper.EmployeeMapper;
@@ -19,7 +21,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     private EmployeeRepository employeeRepository;
-
 
     private DepartmentRepository departmentRepository;
 
@@ -192,4 +193,48 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
+    @Override
+    public Response updateProfile(Long id, UpdateProfileDto updateProfileDto) {
+        try {
+            Employee existingEmployee = employeeRepository.findById(id).orElse(null);
+            if (existingEmployee == null) {
+                return Response.error("No employee found with id: " + id, 404);
+            }
+            if (updateProfileDto.getFirstName() != null) existingEmployee.setFirstName(updateProfileDto.getFirstName());
+            if (updateProfileDto.getLastName() != null) existingEmployee.setLastName(updateProfileDto.getLastName());
+            if (updateProfileDto.getEmail() != null) existingEmployee.setEmail(updateProfileDto.getEmail());
+            if (updateProfileDto.getContactNumber() != null) existingEmployee.setContactNumber(updateProfileDto.getContactNumber());
+            if (updateProfileDto.getDesignation() != null) existingEmployee.setDesignation(updateProfileDto.getDesignation());
+            if (updateProfileDto.getPhoto() != null) existingEmployee.setPhoto(updateProfileDto.getPhoto());
+
+            Employee updatedEmployee = employeeRepository.save(existingEmployee);
+            return Response.success("Profile updated successfully").withData(EmployeeMapper.toDto(updatedEmployee));
+        } catch (Exception e) {
+            return Response.error("Error updating profile", 500);
+        }
+    }
+
+    @Override
+    public Response changePassword(Long id, ChangePasswordDto changePasswordDto) {
+        try {
+            Employee existingEmployee = employeeRepository.findById(id).orElse(null);
+            if (existingEmployee == null) {
+                return Response.error("No employee found with id: " + id, 404);
+            }
+            
+            if (existingEmployee.getPassword() != null && !existingEmployee.getPassword().equals(changePasswordDto.getCurrentPassword())) {
+                return Response.error("Incorrect current password", 400);
+            }
+            
+            if (changePasswordDto.getNewPassword() == null || !changePasswordDto.getNewPassword().equals(changePasswordDto.getConfirmPassword())) {
+                return Response.error("New password and confirm password do not match", 400);
+            }
+
+            existingEmployee.setPassword(changePasswordDto.getNewPassword());
+            employeeRepository.save(existingEmployee);
+            return Response.success("Password changed successfully");
+        } catch (Exception e) {
+            return Response.error("Error changing password", 500);
+        }
+    }
 }

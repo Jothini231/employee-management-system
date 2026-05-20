@@ -11,9 +11,11 @@ import {
   FaChartBar,
   FaSearch,
   FaPlus,
+  FaMoneyBillWave,
 } from "react-icons/fa";
 import SalaryTable from "../../components/salary/SalaryTable";
 import DeleteModal from "../../components/common/DeleteModel";
+import React from "react";
 function SalaryPage () {
 
     const navigate = useNavigate();
@@ -104,9 +106,9 @@ function SalaryPage () {
     }).format(amount || 0);
     };     
     
-    const currentMonth = new Date().toLocaleString("en-US", { month: "long", year: "numeric" });
+    const currentMonth = new Date().toISOString().slice(0, 7);
 
-// use selected filter month if active, otherwise use current month
+
 const activePeriod = month || currentMonth;
 
 const currentMonthSalaries = salaries.filter((s) => s.month === activePeriod);
@@ -153,7 +155,7 @@ const avgSalary = currentMonthSalaries.length > 0
                     </div>
 
                     <div className="bg-green-100 p-3 rounded-full text-green-600">
-                        <FaDollarSign size={24} />
+                        <FaMoneyBillWave size={24} />
                     </div>
                 </div>
 
@@ -218,4 +220,3 @@ const avgSalary = currentMonthSalaries.length > 0
 
 export default SalaryPage;
 
-// to do : filtering not working check it when it selected for filter table not updated

@@ -3,6 +3,7 @@ import SideBar from "./components/SideBar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // Pages
+import Dashboard from "./pages/dashboard/Dashboard";
 import Employees from "./pages/employees/Employees";
 import Department from "./pages/departments/Department";
 
@@ -22,7 +23,7 @@ const App = () => {
 
         <div className="ml-64 flex-1 p-6">
           <Routes>
-           
+            <Route path="/" element={<Dashboard />} />
             <Route path="/employees" element={<Employees />} />
             <Route path="/employees/add" element={<EmployeeForm />} />
             <Route path="/employees/edit/:id" element={<EmployeeForm />} />

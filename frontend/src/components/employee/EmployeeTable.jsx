@@ -40,7 +40,7 @@ function EmployeeTable({
               <td className="px-6 py-5">
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      emp.status === "Active"
+                      emp.status === "ACTIVE"
                         ? "bg-green-100 text-green-700"
                         : "bg-red-100 text-red-600"
                     }`}

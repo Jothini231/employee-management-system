@@ -13,12 +13,7 @@ export default function AssignManagerModal({ deptId, close, refresh }) {
   const loadManagers = async () => {
     try {
       const res = await getEmployeesByDepartment(deptId);
-
-      const filtered = res.data.data.filter(
-        (emp) => emp.role === "MANAGER"
-      );
-
-      setManagers(filtered);
+      setManagers(res.data.data);
     } catch (err) {
       console.error(err);
     }

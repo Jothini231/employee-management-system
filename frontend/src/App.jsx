@@ -1,5 +1,6 @@
 import React from "react";
 import SideBar from "./components/SideBar";
+
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // Pages
@@ -19,11 +20,13 @@ import Settings from "./pages/settings/Settings";
 const App = () => {
   return (
     <BrowserRouter>
-      <div className="flex">
+      <div className="flex bg-gray-50 min-h-screen">
         <SideBar />
 
-        <div className="ml-64 flex-1 p-6">
-          <Routes>
+        <div className="ml-64 flex-1 flex flex-col min-h-screen">
+          
+          <div className="p-6 flex-1">
+            <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/employees" element={<Employees />} />
             <Route path="/employees/add" element={<EmployeeForm />} />
@@ -44,6 +47,7 @@ const App = () => {
           </Routes>
         </div>
       </div>
+    </div>
     </BrowserRouter>
   );
 };

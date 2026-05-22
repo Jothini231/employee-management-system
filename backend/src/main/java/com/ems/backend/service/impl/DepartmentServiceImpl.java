@@ -139,9 +139,6 @@ public class DepartmentServiceImpl implements DepartmentService {
             return Response.error("Employee not in this department",404);
         }
 
-        if (!"MANAGER".equalsIgnoreCase(manager.getRole())){
-           return Response.error("Not a manager role",404);
-        }
         department.setManager(manager);
 
         return Response.success("Manager assigned to a department").withData(DepartmentMapper.toDto(departmentRepository.save(department)));

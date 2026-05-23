@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   FaTachometerAlt,
   FaUsers,
@@ -8,8 +8,11 @@ import {
   FaCog,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-
+import { AuthContext } from "../context/AuthContext";
+import { FiLogOut } from "react-icons/fi";
 const SideBar = () => {
+  const { logout } = useContext(AuthContext);
+
   const links = [
     { name: "Dashboard", path: "/", icon: <FaTachometerAlt /> },
     { name: "Employee", path: "/employees", icon: <FaUsers /> },
@@ -37,6 +40,16 @@ const SideBar = () => {
           </NavLink>
         ))}
       </nav>
+      
+      <div className="absolute bottom-6 left-6 right-6">
+        <button
+          onClick={logout}
+          className="w-full flex items-center p-2 rounded hover:bg-gray-700 transition-colors"
+        >
+          <span className="text-lg mr-3"><FiLogOut /></span>
+          <span>Logout</span>
+        </button>
+      </div>
     </div>
   );
 };

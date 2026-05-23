@@ -1,7 +1,7 @@
-import axios from "axios";
+import api from "./api";
 
 const API = "http://localhost:8080/api/settings";
 
-export const updateProfile = (id, profileData) => axios.put(`${API}/profile/${id}`, profileData);
+export const updateProfile = (id, profileData) => api.put(`${API}/profile/${id}`, profileData);
 
-export const changePassword = (id, passwordData) => axios.put(`${API}/password/${id}`, passwordData);
+export const changePassword = (id, passwordData) => api.put(`${API}/password/${id}`, passwordData);

@@ -1,15 +1,15 @@
-import axios from "axios";
+import api from "./api";
 
 const API = "http://localhost:8080/api/dashboard";
 
-export const getDashboardStats = () => axios.get(`${API}/stats`);
+export const getDashboardStats = () => api.get(`${API}/stats`);
 
-export const getEmployeesPerDepartment = () => axios.get(`${API}/employees-per-department`);
+export const getEmployeesPerDepartment = () => api.get(`${API}/employees-per-department`);
 
-export const getLeaveStatistics = () => axios.get(`${API}/leave-statistics`);
+export const getLeaveStatistics = () => api.get(`${API}/leave-statistics`);
 
-export const getMonthlySalaryExpenses = () => axios.get(`${API}/monthly-salary-expenses`);
+export const getMonthlySalaryExpenses = () => api.get(`${API}/monthly-salary-expenses`);
 
-export const getRecentActivities = () => axios.get(`${API}/recent-activities`);
+export const getRecentActivities = () => api.get(`${API}/recent-activities`);
 
-export const getNotifications = () => axios.get(`${API}/notifications`);
+export const getNotifications = () => api.get(`${API}/notifications`);

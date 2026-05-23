@@ -1,17 +1,17 @@
-import axios from "axios";
+import api from "./api";
 
 const API = "http://localhost:8080/api/leaves";
 
-export const getAllLeaves = () => axios.get(API);
+export const getAllLeaves = () => api.get(API);
 
-export const applyLeave  = (data) => axios.post(API,data);
+export const applyLeave  = (data) => api.post(API,data);
 
-export const approveLeave = (id) => axios.put(`${API}/${id}/approve`);
+export const approveLeave = (id) => api.put(`${API}/${id}/approve`);
 
-export const rejectLeave = (id) => axios.put(`${API}/${id}/reject`);
+export const rejectLeave = (id) => api.put(`${API}/${id}/reject`);
 
-export const getLeaveByEmployee = (id) => axios.get(`${API}/employee?id=${id}`);
+export const getLeaveByEmployee = (id) => api.get(`${API}/employee?id=${id}`);
 
-export const getLeavesByDepartment = (id) => axios.get(`${API}/department?id=${id}`);
+export const getLeavesByDepartment = (id) => api.get(`${API}/department?id=${id}`);
 
-export const getLeavesBetweenDates = (start,end) => axios.get(`${API}/between-dates?startDate=${start}&endDate=${end}`);
+export const getLeavesBetweenDates = (start,end) => api.get(`${API}/between-dates?startDate=${start}&endDate=${end}`);

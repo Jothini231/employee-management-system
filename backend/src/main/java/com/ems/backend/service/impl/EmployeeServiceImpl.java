@@ -40,6 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             List<EmployeeDto> employeeDtos = EmployeeMapper.toEmployeeDtoList(employees);
             return Response.success("Employees retrieved successfully").withData(employeeDtos).withCount(employeeDtos.size());
         } catch (Exception e) {
+            e.printStackTrace();
             return Response.error("Error in retrieving employees", 500);
         }
     }

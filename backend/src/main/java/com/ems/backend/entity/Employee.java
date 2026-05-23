@@ -43,7 +43,9 @@ public class Employee {
 
     private String designation;
 
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     private LocalDate dateOfJoining;
 

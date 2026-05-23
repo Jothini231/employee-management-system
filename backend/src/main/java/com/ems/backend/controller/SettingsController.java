@@ -6,11 +6,13 @@ import com.ems.backend.dto.UpdateProfileDto;
 import com.ems.backend.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/settings")
+@PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
 public class SettingsController {
 
     private final EmployeeService employeeService;

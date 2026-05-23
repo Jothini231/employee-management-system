@@ -5,6 +5,7 @@ import com.ems.backend.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     boolean existsByEmployeeCode(String employeeCode);
@@ -15,4 +16,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<EmployeePerDepartmentDto> countEmployeesPerDepartment();
 
     List<Employee> findTop5ByOrderByIdDesc();
+
+    Optional<Employee> findByEmail(String email);
+    boolean existsByEmail(String email);
 }

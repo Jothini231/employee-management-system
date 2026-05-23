@@ -5,11 +5,13 @@ import com.ems.backend.dto.Response;
 import com.ems.backend.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/departments")
+@PreAuthorize("hasRole('ADMIN')")
 public class DepartmentController {
 
     private DepartmentService departmentService;
@@ -26,12 +28,14 @@ public class DepartmentController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     public ResponseEntity<Response> getAllDepartments(){
         Response response = departmentService.getAllDepartments();
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     public ResponseEntity<Response> getDepartmentById(@PathVariable Long id){
         Response response = departmentService.getDepartmentById(id);
         return ResponseEntity.status(response.getStatusCode()).body(response);

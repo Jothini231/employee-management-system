@@ -6,11 +6,13 @@ import com.ems.backend.dto.SalaryDto;
 import com.ems.backend.service.SalaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/salaries")
+@PreAuthorize("hasRole('ADMIN')")
 public class SalaryController {
 
     private SalaryService salaryService;
@@ -45,6 +47,7 @@ public class SalaryController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     public ResponseEntity<Response> getSalaryById(@PathVariable Long id){
         Response response = salaryService.getSalaryById(id);
         return ResponseEntity.status(response.getStatusCode()).body(response);

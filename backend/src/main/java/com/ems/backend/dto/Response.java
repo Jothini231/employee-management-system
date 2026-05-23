@@ -20,6 +20,9 @@ public class Response {
     private Integer count;
     private String role;
     private Object data;
+    private String token;
+    private String name;
+    private String email;
 
 
     public static Response success(String message){
@@ -39,6 +42,18 @@ public class Response {
     }
 
 
+    public static Response auth(String token, String role, String name, String email) {
+        Response response = new Response();
+        response.setMessage("Authentication successful");
+        response.setSuccess(true);
+        response.setStatusCode(200);
+        response.setToken(token);
+        response.setRole(role);
+        response.setName(name);
+        response.setEmail(email);
+        return response;
+    }
+
     public Response withCount(int count) {
         this.count = count;
         return this;
@@ -47,6 +62,16 @@ public class Response {
 
     public Response withData(Object data) {
         this.data = data;
+        return this;
+    }
+
+    public Response withRole(String role) {
+        this.role = role;
+        return this;
+    }
+
+    public Response withToken(String token) {
+        this.token = token;
         return this;
     }
 

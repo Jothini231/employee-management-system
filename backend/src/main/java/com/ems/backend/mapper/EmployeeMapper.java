@@ -2,11 +2,14 @@ package com.ems.backend.mapper;
 
 import com.ems.backend.dto.EmployeeDto;
 import com.ems.backend.entity.Employee;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class EmployeeMapper {
+
+    private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public static EmployeeDto toDto(Employee employee){
         if(employee == null){
@@ -59,7 +62,11 @@ public class EmployeeMapper {
         employee.setSalary(dto.getSalary());
         employee.setBankAccountNumber(dto.getBankAccountNumber());
         employee.setUserName(dto.getUserName());
-        employee.setPassword(dto.getPassword());
+        if (dto.getPassword() != null && !dto.getPassword().startsWith("$2a$")) {
+            employee.setPassword(passwordEncoder.encode(dto.getPassword()));
+        } else {
+            employee.setPassword(dto.getPassword());
+        }
         employee.setPhoto(dto.getPhoto());
         employee.setStatus(dto.getStatus());
 

@@ -5,11 +5,13 @@ import com.ems.backend.service.EmployeeService;
 import com.ems.backend.dto.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/employees")
+@PreAuthorize("hasRole('ADMIN')")
 public class EmployeeController {
 
     private EmployeeService employeeService;
@@ -32,6 +34,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     public ResponseEntity<Response> getEmployeeById(@PathVariable Long id){
         Response response = employeeService.getEmployeeById(id);
         return ResponseEntity.status(response.getStatusCode()).body(response);

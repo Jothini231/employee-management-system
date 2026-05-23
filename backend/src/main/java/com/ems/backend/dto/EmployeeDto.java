@@ -1,5 +1,6 @@
 package com.ems.backend.dto;
 
+import com.ems.backend.entity.Role;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -22,7 +23,7 @@ public class EmployeeDto {
     private String employeeCode;
     private Long departmentId;
     private String designation;
-    private String role;
+    private Role role;
     private LocalDate dateOfJoining;
     private String reportingManager;
     private Double salary;

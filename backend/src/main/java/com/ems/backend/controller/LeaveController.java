@@ -5,6 +5,7 @@ import com.ems.backend.dto.Response;
 import com.ems.backend.service.LeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/leaves")
+@PreAuthorize("hasRole('ADMIN')")
 public class LeaveController {
 
     private LeaveService leaveService;
@@ -28,6 +30,7 @@ public class LeaveController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     public ResponseEntity<Response> applyLeave(@RequestBody LeaveDto leaveDto){
         Response response = leaveService.applyLeave(leaveDto);
         return ResponseEntity.status(response.getStatusCode()).body(response);
@@ -46,6 +49,7 @@ public class LeaveController {
     }
 
     @GetMapping("/employee")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     public ResponseEntity<Response> getLeavesByEmployee(@RequestParam Long id){
         Response response = leaveService.getLeaveByEmployee(id);
         return ResponseEntity.status(response.getStatusCode()).body(response);

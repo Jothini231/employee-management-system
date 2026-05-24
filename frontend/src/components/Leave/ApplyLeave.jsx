@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { getEmployees } from "../../services/employeeService";
 import { applyLeave } from "../../services/leaveService";
+import { AuthContext } from "../../context/AuthContext";
 
 function ApplyLeave() {
     const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
+    const isAdmin = user?.role === 'ADMIN';
 
     const [employees, setEmployees] = useState([]);
 
     const [formData, setFormData] = useState({
-        employeeId: "",
+        employeeId: user?.id || "",
         startDate: "",
         endDate: "",
         reason: "",
@@ -20,8 +23,12 @@ function ApplyLeave() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        loadEmployees();
-    }, []);
+        if (isAdmin) {
+            loadEmployees();
+        } else if (user?.id) {
+            setFormData(prev => ({ ...prev, employeeId: user.id }));
+        }
+    }, [isAdmin, user]);
 
     const loadEmployees = async () => {
         try {
@@ -43,19 +50,27 @@ function ApplyLeave() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!formData.employeeId || !formData.startDate || !formData.endDate) {
-            alert("Please fill required fields");
+        const currentEmployeeId = isAdmin ? formData.employeeId : user?.id;
+
+        if (!currentEmployeeId) {
+            alert("Missing Employee ID. If you just updated the app, please log out and log back in to refresh your session.");
+            return;
+        }
+
+        if (!formData.startDate || !formData.endDate) {
+            alert("Please fill in the Start Date and End Date.");
             return;
         }
 
         try {
             setLoading(true);
 
-            await applyLeave(formData);
+            const submitData = { ...formData, employeeId: currentEmployeeId };
+            await applyLeave(submitData);
 
             alert("Leave applied successfully!");
 
-            navigate("/leave"); 
+            navigate(isAdmin ? "/leave" : "/my-leaves"); 
 
         } catch (error) {
             console.log("Error applying leave:", error);
@@ -76,26 +91,27 @@ function ApplyLeave() {
 
                 <form onSubmit={handleSubmit} className="space-y-5">
 
-                    
-                    <div>
-                        <label className="block text-gray-600 mb-1">
-                            Employee
-                        </label>
+                    {isAdmin && (
+                        <div>
+                            <label className="block text-gray-600 mb-1">
+                                Employee
+                            </label>
 
-                        <select
-                            name="employeeId"
-                            value={formData.employeeId}
-                            onChange={handleChange}
-                            className="w-full border rounded-lg p-2"
-                        >
-                            <option value="">Select Employee</option>
-                            {employees.map(emp => (
-                                <option key={emp.id} value={emp.id}>
-                                    {emp.firstName} {emp.lastName}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                            <select
+                                name="employeeId"
+                                value={formData.employeeId}
+                                onChange={handleChange}
+                                className="w-full border rounded-lg p-2"
+                            >
+                                <option value="">Select Employee</option>
+                                {employees.map(emp => (
+                                    <option key={emp.id} value={emp.id}>
+                                        {emp.firstName} {emp.lastName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
 
                    
                     <div>
@@ -169,7 +185,7 @@ function ApplyLeave() {
 
                         <button
                             type="button"
-                            onClick={() => navigate("/leave")}
+                            onClick={() => navigate(isAdmin ? "/leave" : "/my-leaves")}
                             className="px-4 py-2 border rounded-lg"
                         >
                             Cancel

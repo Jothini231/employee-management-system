@@ -26,13 +26,14 @@ const Register = () => {
     setError('');
     setIsLoading(true);
     try {
-      const data = await registerUser(formData);
+      const response = await registerUser(formData);
+      const data = response.data;
       // If backend returns a token upon registration, log them in automatically
       if (data && data.token) {
         const user = data.user || { name: formData.name, email: formData.email, role: formData.role };
         login(data.token, user);
       } else {
-        // Otherwise, redirect to login
+        
         navigate('/login');
       }
     } catch (err) {

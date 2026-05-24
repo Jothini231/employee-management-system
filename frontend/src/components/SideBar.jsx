@@ -11,9 +11,11 @@ import { NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { FiLogOut } from "react-icons/fi";
 const SideBar = () => {
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
 
-  const links = [
+  const isAdmin = user && user.role === 'ADMIN';
+
+  const adminLinks = [
     { name: "Dashboard", path: "/", icon: <FaTachometerAlt /> },
     { name: "Employee", path: "/employees", icon: <FaUsers /> },
     { name: "Department", path: "/departments", icon: <FaBookOpen /> },
@@ -21,9 +23,19 @@ const SideBar = () => {
     { name: "Salary", path: "/salary", icon: <FaMoneyBillWave /> },
     { name: "Settings", path: "/settings", icon: <FaCog /> },
   ];
+
+  const employeeLinks = [
+    { name: "Dashboard", path: "/employee-dashboard", icon: <FaTachometerAlt /> },
+    { name: "My Leaves", path: "/my-leaves", icon: <FaCalendarAlt /> },
+    { name: "My Salary", path: "/my-salary", icon: <FaMoneyBillWave /> },
+    { name: "Settings", path: "/settings", icon: <FaCog /> },
+  ];
+
+  const links = isAdmin ? adminLinks : employeeLinks;
+
   return (
     <div className="fixed top-0 left-0 w-64 bg-gray-800 text-white h-screen p-6">
-      <h1 className="text-2xl font-bold mb-8">Admin</h1>
+      <h1 className="text-2xl font-bold mb-8">{isAdmin ? 'Admin' : 'Employee'}</h1>
       <nav>
         {links.map((link) => (
           <NavLink

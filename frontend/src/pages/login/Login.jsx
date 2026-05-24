@@ -23,7 +23,12 @@ const Login = () => {
       const response = await loginUser(credentials);
       const data = response.data;
       if (data && data.token) {
-        const user = data.user || { email: credentials.email };
+        const user = {
+          id: data.id,
+          role: data.role,
+          name: data.name,
+          email: data.email
+        };
         login(data.token, user);
       } else {
         setError('Login failed, please check your credentials.');

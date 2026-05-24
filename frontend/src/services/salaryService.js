@@ -26,3 +26,5 @@ export const searchSalaries = (keyword) =>
   api.get(`${API}/search`, {
     params: { keyword },
   });
+
+export const getSalariesByEmployeeId = (employeeId) => api.get(`${API}/employee/${employeeId}`);

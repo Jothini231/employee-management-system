@@ -34,9 +34,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Response getAllEmployees() {
         try {
             List<Employee> employees = employeeRepository.findAll();
-            if (employees.isEmpty()) {
-                return Response.error("No employees found", 404);
-            }
             List<EmployeeDto> employeeDtos = EmployeeMapper.toEmployeeDtoList(employees);
             return Response.success("Employees retrieved successfully").withData(employeeDtos).withCount(employeeDtos.size());
         } catch (Exception e) {
@@ -174,11 +171,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
             List<Employee> employees = employeeRepository.findByDepartmentId(deptId);
-
-
-            if (employees.isEmpty()) {
-                return Response.error("No employees found in this department", 404);
-            }
 
 
             List<EmployeeDto> employeeDtos =

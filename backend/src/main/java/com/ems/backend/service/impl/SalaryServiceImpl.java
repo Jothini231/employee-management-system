@@ -65,9 +65,6 @@ public class SalaryServiceImpl implements SalaryService {
 
         try {
             List<Salary> salaries = salaryRepository.findAll();
-            if (salaries.isEmpty()) {
-                return Response.error("No salary found", 404);
-            }
 
             List<SalaryResponseDto> salaryDtos = SalaryMapper.toDtoList(salaries);
             return Response.success("Salaries retrieved successfully").withData(salaryDtos).withCount(salaryDtos.size());
@@ -153,10 +150,6 @@ public class SalaryServiceImpl implements SalaryService {
         try {
             List<Salary> salaries = salaryRepository.findAll();
 
-            if (salaries.isEmpty()) {
-                return Response.error("Salaries not found", 404);
-            }
-
             List<SalaryResponseDto> filtered = salaries.stream()
                     .filter(s ->
                             month == null || s.getMonth().equalsIgnoreCase(month))
@@ -182,10 +175,6 @@ public class SalaryServiceImpl implements SalaryService {
 
         try {
             List<Salary> salaries = salaryRepository.findAll();
-
-            if (salaries.isEmpty()) {
-                return Response.error("Salaries not found", 404);
-            }
 
             List<SalaryResponseDto> searched = salaries.stream()
                     .filter(s ->

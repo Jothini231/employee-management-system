@@ -47,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
             String jwt = jwtUtil.generateToken(employee);
             String fullName = employee.getFirstName() + (employee.getLastName() != null && !employee.getLastName().isEmpty() ? " " + employee.getLastName() : "");
 
-            return Response.auth(jwt, employee.getRole().name(), fullName, employee.getEmail());
+            return Response.auth(jwt, employee.getRole().name(), fullName, employee.getEmail(), employee.getId());
         } catch (Exception e) {
             e.printStackTrace();
             return Response.error("Invalid email or password", 401);

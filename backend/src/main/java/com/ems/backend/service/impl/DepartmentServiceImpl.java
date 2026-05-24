@@ -54,9 +54,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         try {
             List<Department> departments = departmentRepository.findAll();
-            if (departments.isEmpty()) {
-                return Response.error("No department found", 404);
-            }
 
             List<DepartmentDto> departmentDtos = DepartmentMapper.toDepartmentDtoList(departments);
             return Response.success("Departments retrieved successfully").withData(departmentDtos).withCount(departmentDtos.size());

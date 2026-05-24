@@ -53,6 +53,13 @@ public class SalaryController {
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
+    @GetMapping("/employee/{employeeId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
+    public ResponseEntity<Response> getSalariesByEmployeeId(@PathVariable Long employeeId){
+        Response response = salaryService.filterSalaries(null, null, employeeId);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
     @GetMapping("/filter")
     public ResponseEntity<Response> filterSalaries(
             @RequestParam(required = false) String month,

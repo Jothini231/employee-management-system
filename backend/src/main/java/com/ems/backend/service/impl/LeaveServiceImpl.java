@@ -34,9 +34,6 @@ public class LeaveServiceImpl implements LeaveService {
 
         try{
             List<Leave> leaves = leaveRepository.findAll();
-            if(leaves.isEmpty()){
-                return Response.error("No leave request found",404);
-            }
 
             List<LeaveDto> leaveDtos = LeaveMapper.toLeaveDtoList(leaves);
             return Response.success("Leave requests retrieved successfully").withData(leaveDtos).withCount(leaveDtos.size());
@@ -119,10 +116,6 @@ public class LeaveServiceImpl implements LeaveService {
 
             List<Leave> leaves = leaveRepository.findByEmployeeId(employeeId);
 
-            if (leaves.isEmpty()) {
-                return Response.error("No leave request found with employee id : " + employeeId, 404);
-            }
-
             List<LeaveDto> leaveDtoList = LeaveMapper.toLeaveDtoList(leaves);
 
             return Response.success("leave requests retrieved successfully").withData(leaveDtoList).withCount(leaveDtoList.size());
@@ -137,10 +130,6 @@ public class LeaveServiceImpl implements LeaveService {
 
             List<Leave> leaves = leaveRepository.findByEmployeeDepartmentId(departmentId);
 
-            if (leaves.isEmpty()) {
-                return Response.error("No leave request found with department id : " + departmentId, 404);
-            }
-
             List<LeaveDto> leaveDtos = LeaveMapper.toLeaveDtoList(leaves);
 
             return Response.success("leave requests retrieved successfully").withData(leaveDtos).withCount(leaveDtos.size());
@@ -154,10 +143,6 @@ public class LeaveServiceImpl implements LeaveService {
         try {
 
             List<Leave> leaves = leaveRepository.findByStartDateBetween(start, end);
-
-            if (leaves.isEmpty()) {
-                return Response.error("No leaves found between given dates", 404);
-            }
 
             List<LeaveDto> leaveDtoList = LeaveMapper.toLeaveDtoList(leaves);
 

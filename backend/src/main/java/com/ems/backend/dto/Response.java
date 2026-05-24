@@ -23,6 +23,7 @@ public class Response {
     private String token;
     private String name;
     private String email;
+    private Long id;
 
 
     public static Response success(String message){
@@ -42,7 +43,7 @@ public class Response {
     }
 
 
-    public static Response auth(String token, String role, String name, String email) {
+    public static Response auth(String token, String role, String name, String email, Long id) {
         Response response = new Response();
         response.setMessage("Authentication successful");
         response.setSuccess(true);
@@ -51,6 +52,7 @@ public class Response {
         response.setRole(role);
         response.setName(name);
         response.setEmail(email);
+        response.setId(id);
         return response;
     }
 
